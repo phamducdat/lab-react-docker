@@ -7,7 +7,7 @@ function App() {
     const [externalData, setExternalData] = useState<any>()
 
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8081/welcome`).then((response) => {
+        axios.get(`/api/welcome`).then((response) => {
             setExternalData(response)
         }).catch(error => {
             setExternalData(error)

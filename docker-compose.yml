@@ -8,12 +8,19 @@ services:
       SPRING_DATASOURCE_USERNAME: keycloak
       SPRING_DATASOURCE_PASSWORD: keycloak
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
-    ports:
-      - 8081:8080
     networks:
       - app-network
+
+  react:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:80
     depends_on:
-      - postgresdb
+      - app
+    networks:
+      - app-network
 
   postgresdb:
     image: postgres:13.2
@@ -21,19 +28,6 @@ services:
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: keycloak
       POSTGRES_DB: keycloak
-    ports:
-      - 5434:5432
-    networks:
-      - app-network
-
-  frontend:
-    image: react-ts-app:latest
-    ports:
-      - 3000:3000
-    environment:
-      - REACT_APP_API_BASE_URL=http://127.0.0.1:8081
-    depends_on:
-      - app
     networks:
       - app-network
 
